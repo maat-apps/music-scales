@@ -39,7 +39,7 @@ export function HomeView() {
   );
 
   return (
-    <div className="mx-auto flex min-h-dvh w-[min(100%,480px)] flex-col gap-6 pt-[calc(env(safe-area-inset-top)+24px)] pr-(--gutter-right) pl-(--gutter-left) landscape:w-full landscape:max-w-5xl landscape:gap-3 landscape:pt-[calc(env(safe-area-inset-top)+12px)]">
+    <div className="mx-auto flex min-h-dvh w-[min(100%,480px)] flex-col gap-6 pt-[calc(env(safe-area-inset-top)+24px)] pr-(--gutter-right) pl-(--gutter-left) landscape:w-full landscape:gap-3 landscape:pt-[calc(env(safe-area-inset-top)+12px)]">
       {/* A landscape phone has little height: the keyboard goes first, the
           app's name stays for screen readers. */}
       <div className="landscape:sr-only">
