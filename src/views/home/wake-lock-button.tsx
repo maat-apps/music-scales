@@ -1,9 +1,11 @@
-import { SunIcon } from "@phosphor-icons/react";
+import { CoffeeIcon } from "@phosphor-icons/react";
 
 import { Button } from "@maat-apps/ui/button";
 import { useWakeLock } from "../../hooks/use-wake-lock";
 import { useTranslation } from "../../i18n/use-translation";
 import { screenWakeLock } from "../../lib/wake-lock";
+
+import { HEADER_BUTTON_CLASS } from "./header-button";
 
 /** Keeps the screen on while practising; absent where the browser can't. */
 export function WakeLockButton() {
@@ -14,16 +16,17 @@ export function WakeLockButton() {
 
   return (
     <Button
-      variant={on ? "default" : "outline"}
+      variant={on ? "default" : "ghost"}
       aria-pressed={on}
       aria-label={t("wakeLock")}
       title={on ? t("wakeLockOn") : t("wakeLock")}
-      className="size-14 shrink-0 rounded-2xl [&_svg:not([class*='size-'])]:size-7"
+      className={HEADER_BUTTON_CLASS}
       onClick={() =>
         void (on ? screenWakeLock.disable() : screenWakeLock.enable())
       }
     >
-      <SunIcon weight={on ? "fill" : "regular"} />
+      {/* A cup of coffee keeps you awake: a sun read as a theme switch. */}
+      <CoffeeIcon weight={on ? "fill" : "regular"} />
     </Button>
   );
 }

@@ -6,6 +6,7 @@ import {
   closeSettings,
   goHome,
   keysWithRole,
+  openScalePicker,
   openSettings,
   waitForStoredSettings,
 } from "./utils";
@@ -103,4 +104,49 @@ test("remembers the last settings across a relaunch", async ({ page }) => {
   await page.reload();
 
   await expect(page.getByRole("heading", { name: "D dorycka" })).toBeVisible();
+});
+
+test("names the scale on the picker's button", async ({ page }) => {
+  await goHome(page);
+  await expect(
+    page.getByRole("button", { name: "Zmień skalę: C dur (jońska)" }),
+  ).toBeVisible();
+
+  await choose(page, "Dźwięk podstawowy", "D♭");
+
+  await expect(
+    page.getByRole("button", { name: "Zmień skalę: D♭ dur (jońska)" }),
+  ).toBeVisible();
+});
+
+test("turns the wheels with the arrow keys", async ({ page }) => {
+  await goHome(page);
+  await openScalePicker(page);
+
+  const scales = page.getByRole("listbox", { name: "Skala" });
+  await scales.focus();
+  await page.keyboard.press("ArrowDown");
+
+  await expect(
+    scales.getByRole("option", { name: "moll naturalny (eolska)" }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(
+    page.getByRole("heading", { name: "C moll naturalny (eolska)" }),
+  ).toBeVisible();
+});
+
+test("chooses the row a flick settles on", async ({ page }) => {
+  await goHome(page);
+  await openScalePicker(page);
+
+  const roots = page.getByRole("listbox", { name: "Dźwięk podstawowy" });
+  // Two rows down: C → D♭ → D.
+  await roots.evaluate((list) => list.scrollTo({ top: 96 }));
+
+  await expect(
+    roots.getByRole("option", { name: "D", exact: true }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(
+    page.getByRole("heading", { name: "D dur (jońska)" }),
+  ).toBeVisible();
 });

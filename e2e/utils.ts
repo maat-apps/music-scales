@@ -24,10 +24,23 @@ export async function closeSettings(page: Page) {
   await expect(page.getByRole("dialog")).toHaveCount(0);
 }
 
-/** Picks `option` from the bottom bar's select labelled `label`. */
+/** Opens the scale picker from its floating button. */
+export async function openScalePicker(page: Page) {
+  await page.getByRole("button", { name: /^Zmień skalę/ }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+}
+
+/** Picks `option` on the scale picker's wheel labelled `label`, then closes
+ * the picker. */
 export async function choose(page: Page, label: string, option: string) {
-  await page.getByRole("combobox", { name: label }).click();
-  await page.getByRole("option", { name: option, exact: true }).click();
+  await openScalePicker(page);
+  const choice = page
+    .getByRole("listbox", { name: label })
+    .getByRole("option", { name: option, exact: true });
+  await choice.click();
+  await expect(choice).toHaveAttribute("aria-selected", "true");
+  await page.getByRole("button", { name: "Gotowe" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 }
 
 /** The keyboard's keys of a role, by their data-role attribute. */

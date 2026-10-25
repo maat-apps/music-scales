@@ -15,10 +15,13 @@ landscape.
 
 ## Behavior
 
-- **Root and scale** in the bottom bar, within the thumb's reach: 12 roots;
-  major, the three minors (natural, harmonic, melodic), the other modes
-  (Dorian, Phrygian, Lydian, Mixolydian, Locrian), both pentatonics and
-  blues. A root is named the way its scale spells it (D♭ major, C♯ minor).
+- **Root and scale** from a floating button within the thumb's reach,
+  which names the current scale: it opens a drawer with two wheels, like an
+  alarm clock's hours and minutes — 12 roots; major, the three minors
+  (natural, harmonic, melodic), the other modes (Dorian, Phrygian, Lydian,
+  Mixolydian, Locrian), both pentatonics and blues. A choice applies at
+  once; a new root sounds. A root is named the way its scale spells it (D♭
+  major, C♯ minor).
 - **The scale**: its name, notes (each letter once in a seven-note scale,
   so F major reads B♭, not A♯), degrees (1 2 ♭3 …) and steps in tones.
 - **Keyboard**: the scale's keys lit, the root in its own colour, each lit
@@ -34,8 +37,8 @@ landscape.
   Pentatonics and blues explain why they have none.
 - **Polish notation** (Settings): H for B, B for B♭ — everywhere notes are
   named.
-- **Keep the screen on**: a button in the bottom bar (Screen Wake Lock),
-  filled while on; taken again on returning to the app, and absent where
+- **Keep the screen on**: a coffee-cup button in the header, beside
+  settings (Screen Wake Lock), filled while on; taken again on returning to the app, and absent where
   the browser has no Wake Lock.
 - **Remembered**: root, scale, octaves, start octave and
   notation come back on the next launch.
