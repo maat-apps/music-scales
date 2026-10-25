@@ -6,7 +6,6 @@ import {
 import { createPersistedStore } from "@maat-apps/core/persisted";
 
 import { keyValueStore } from "./idb-store";
-import { CHORD_SIZES, type ChordSize } from "./music/chords";
 import {
   OCTAVE_COUNTS,
   type OctaveCount,
@@ -26,7 +25,6 @@ export type PracticePrefs = {
   /** Pitch class of the scale's root, 0 (C) – 11 (B). */
   root: number;
   scale: ScaleId;
-  chordSize: ChordSize;
 };
 
 export type KeyboardPrefs = {
@@ -58,7 +56,6 @@ export type AppSettings = {
 const DEFAULT_PRACTICE: PracticePrefs = {
   root: 0,
   scale: "major",
-  chordSize: 3,
 };
 
 const DEFAULT_KEYBOARD: KeyboardPrefs = { octaves: 2, startOctave: 4 };
@@ -84,7 +81,6 @@ function parsePractice(value: unknown): PracticePrefs {
   return {
     root: pick(stored.root, ROOTS, DEFAULT_PRACTICE.root),
     scale: pick(stored.scale, SCALE_IDS, DEFAULT_PRACTICE.scale),
-    chordSize: pick(stored.chordSize, CHORD_SIZES, DEFAULT_PRACTICE.chordSize),
   };
 }
 

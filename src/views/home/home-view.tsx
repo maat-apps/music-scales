@@ -55,10 +55,8 @@ export function HomeView() {
       <ChordList
         rootPc={practice.root}
         scale={scale}
-        size={practice.chordSize}
         notation={notation}
         startOctave={keyboard.startOctave}
-        onSizeChange={(chordSize) => setPracticePrefs({ chordSize })}
       />
       <p className="text-muted-foreground m-0 pb-4 text-sm">{t("tip")}</p>
       <BottomBar

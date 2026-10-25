@@ -28,12 +28,12 @@ beforeEach(async () => {
 });
 
 describe("defaults", () => {
-  it("opens on C major triads, two octaves from middle C, B not H", async () => {
+  it("opens on C major, two octaves from middle C, B not H", async () => {
     const appSettings = await freshAppSettings();
     expect(appSettings.getSettingsSnapshot()).toMatchObject({
       installed: false,
       lock: null,
-      practice: { root: 0, scale: "major", chordSize: 3 },
+      practice: { root: 0, scale: "major" },
       keyboard: { octaves: 2, startOctave: 4 },
       notation: "international",
     });
@@ -45,13 +45,13 @@ describe("defaults", () => {
 describe("loading", () => {
   it("restores what was last practised", async () => {
     const appSettings = await loadStored({
-      practice: { root: 9, scale: "dorian", chordSize: 4 },
+      practice: { root: 9, scale: "dorian" },
       keyboard: { octaves: 3, startOctave: 2 },
       notation: "polish",
       installed: true,
     });
     expect(appSettings.getSettingsSnapshot()).toMatchObject({
-      practice: { root: 9, scale: "dorian", chordSize: 4 },
+      practice: { root: 9, scale: "dorian" },
       keyboard: { octaves: 3, startOctave: 2 },
       notation: "polish",
       installed: true,
@@ -60,16 +60,26 @@ describe("loading", () => {
 
   it("falls back per field for values it doesn't know", async () => {
     const appSettings = await loadStored({
-      practice: { root: 12, scale: "bebop", chordSize: 4 },
+      practice: { root: 12, scale: "bebop" },
       keyboard: { octaves: 5, startOctave: "4" },
       notation: "german",
       installed: "yes",
     });
     expect(appSettings.getSettingsSnapshot()).toMatchObject({
-      practice: { root: 0, scale: "major", chordSize: 4 },
+      practice: { root: 0, scale: "major" },
       keyboard: { octaves: 2, startOctave: 4 },
       notation: "international",
       installed: false,
+    });
+  });
+
+  it("drops the chord type older versions remembered", async () => {
+    const appSettings = await loadStored({
+      practice: { root: 9, scale: "dorian", chordSize: 4 },
+    });
+    expect(appSettings.getSettingsSnapshot().practice).toEqual({
+      root: 9,
+      scale: "dorian",
     });
   });
 
@@ -89,11 +99,10 @@ describe("setters", () => {
   it("merges practice changes", async () => {
     const appSettings = await freshAppSettings();
     appSettings.setPracticePrefs({ root: 7 });
-    appSettings.setPracticePrefs({ chordSize: 4 });
+    appSettings.setPracticePrefs({ scale: "dorian" });
     expect(appSettings.getSettingsSnapshot().practice).toEqual({
       root: 7,
-      scale: "major",
-      chordSize: 4,
+      scale: "dorian",
     });
   });
 

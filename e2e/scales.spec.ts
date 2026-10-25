@@ -10,7 +10,7 @@ import {
   waitForStoredSettings,
 } from "./utils";
 
-test("opens on C major with its keys and triads", async ({ page }) => {
+test("opens on C major with its keys and chords", async ({ page }) => {
   await goHome(page);
 
   await expect(
@@ -20,7 +20,7 @@ test("opens on C major with its keys and triads", async ({ page }) => {
   // Two octaves from C4, plus the closing C: three roots.
   await expect(keysWithRole(page, "root")).toHaveCount(3);
   await expect(keysWithRole(page, "scale")).toHaveCount(12);
-  expect(await chordNames(page)).toEqual([
+  expect(await chordNames(page, "Trójdźwięki")).toEqual([
     "C",
     "Dm",
     "Em",
@@ -34,9 +34,7 @@ test("opens on C major with its keys and triads", async ({ page }) => {
 test("shows seventh chords on every degree", async ({ page }) => {
   await goHome(page);
 
-  await page.getByRole("button", { name: "Czterodźwięki" }).click();
-
-  expect(await chordNames(page)).toEqual([
+  expect(await chordNames(page, "Akordy septymowe")).toEqual([
     "Cmaj7",
     "Dm7",
     "Em7",
@@ -58,7 +56,7 @@ test("follows the chosen root and scale", async ({ page }) => {
     page.getByRole("heading", { name: "A moll harmoniczny" }),
   ).toBeVisible();
   await expect(page.getByText("A  B  C  D  E  F  G♯")).toBeVisible();
-  expect(await chordNames(page)).toContain("C+");
+  expect(await chordNames(page, "Trójdźwięki")).toContain("C+");
 });
 
 test("explains why pentatonics have no chord set", async ({ page }) => {
@@ -82,22 +80,18 @@ test("writes H instead of B in Polish notation", async ({ page }) => {
 
   await expect(page.getByText("F  G  A  B  C  D  E")).toBeVisible();
   await choose(page, "Dźwięk podstawowy", "G");
-  expect(await chordNames(page)).toContain("Hm");
+  expect(await chordNames(page, "Trójdźwięki")).toContain("Hm");
 });
 
 test("remembers the last settings across a relaunch", async ({ page }) => {
   await goHome(page);
   await choose(page, "Skala", "dorycka");
   await choose(page, "Dźwięk podstawowy", "D");
-  await page.getByRole("button", { name: "Czterodźwięki" }).click();
   await waitForStoredSettings(page, {
-    practice: { root: 2, scale: "dorian", chordSize: 4 },
+    practice: { root: 2, scale: "dorian" },
   });
 
   await page.reload();
 
   await expect(page.getByRole("heading", { name: "D dorycka" })).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Czterodźwięki" }),
-  ).toHaveAttribute("aria-pressed", "true");
 });

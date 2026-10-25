@@ -2,7 +2,7 @@
 
 Aplikacja PWA do nauki skal muzycznych na klawiaturze: wybierasz dźwięk
 podstawowy i skalę, widzisz jej dźwięki na klawiszach, słyszysz klawisze
-i akordy (trójdźwięki albo czterodźwięki z cyframi rzymskimi). Działa
+i akordy (trójdźwięki i septymowe, z cyframi rzymskimi). Działa
 offline, na telefonie w pionie i w poziomie. Opis funkcji:
 [PRODUCT.md](./PRODUCT.md).
 

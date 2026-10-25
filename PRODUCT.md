@@ -26,15 +26,16 @@ landscape.
   from a chosen C (Settings). In portrait it scrolls sideways; in
   landscape two octaves fit with no scrolling. Tapping a key plays it.
 - **Chords** for seven-note scales, one per degree with its Roman numeral
-  (upper case major, lower case minor): triads or seventh chords (Cmaj7,
-  Dm7, G7, Bm7♭5 — viiø7, …), switched above the list; tapping plays one.
+  (upper case major, lower case minor): the triads, then the seventh
+  chords (Cmaj7, Dm7, G7, Bm7♭5 — viiø7, …), each group under its own
+  heading and explanation; tapping plays one.
   Pentatonics and blues explain why they have none.
 - **Polish notation** (Settings): H for B, B for B♭ — everywhere notes are
   named.
 - **Keep the screen on**: a button in the bottom bar (Screen Wake Lock),
   filled while on; taken again on returning to the app, and absent where
   the browser has no Wake Lock.
-- **Remembered**: root, scale, chord type, octaves, start octave and
+- **Remembered**: root, scale, octaves, start octave and
   notation come back on the next launch.
 - The ecosystem's app lock, install and update actions, and language, in
   Settings.
