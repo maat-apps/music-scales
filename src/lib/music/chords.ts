@@ -30,7 +30,8 @@ const CHORD_KINDS: Record<string, ChordKind> = {
 const ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII"];
 
 export type DiatonicChord = {
-  root: SpelledNote;
+  /** Its notes from the root up, spelled like the scale: C E G B. */
+  notes: SpelledNote[];
   /** After the root name: "", "m", "°", "maj7", "m7♭5"… */
   symbol: string;
   /** "I", "ii", "vii°", "V7", "viiø7"… */
@@ -51,15 +52,15 @@ function chordOn(
   semitones: number[],
   notes: SpelledNote[],
 ): DiatonicChord {
-  const tones = Array.from({ length: size }, (_, i) => {
-    const index = degree + 2 * i;
-    return semitones[index % 7] + 12 * Math.floor(index / 7);
-  });
+  const indexes = Array.from({ length: size }, (_, i) => degree + 2 * i);
+  const tones = indexes.map(
+    (index) => semitones[index % 7] + 12 * Math.floor(index / 7),
+  );
   const intervals = tones.slice(1).map((tone) => tone - tones[0]);
   const kind = chordKind(intervals) ?? { symbol: "?", numeral: "?" };
   const roman = ROMAN_NUMERALS[degree];
   return {
-    root: notes[degree],
+    notes: indexes.map((index) => notes[index % 7]),
     symbol: kind.symbol,
     numeral: (intervals[0] === 4 ? roman : roman.toLowerCase()) + kind.numeral,
     semitones: tones,
@@ -81,5 +82,13 @@ export function diatonicChords(
 
 /** "Cmaj7", "F♯m7♭5", or in Polish notation "Hm7♭5". */
 export function chordName(chord: DiatonicChord, notation: Notation): string {
-  return noteName(chord.root, notation) + chord.symbol;
+  return noteName(chord.notes[0], notation) + chord.symbol;
+}
+
+/** "C E G B", or in Polish notation "C E G H". */
+export function chordNoteNames(
+  chord: DiatonicChord,
+  notation: Notation,
+): string {
+  return chord.notes.map((note) => noteName(note, notation)).join(" ");
 }

@@ -3,6 +3,7 @@ import { useTranslation } from "../../i18n/use-translation";
 import {
   CHORD_SIZES,
   chordName,
+  chordNoteNames,
   type ChordSize,
   type DiatonicChord,
   diatonicChords,
@@ -73,7 +74,7 @@ export function ChordList({
               <li key={chord.numeral}>
                 <ChordButton
                   chord={chord}
-                  name={chordName(chord, notation)}
+                  notation={notation}
                   onPlay={() =>
                     synth.play(chordMidis(rootPc, chord.semitones, startOctave))
                   }
@@ -89,14 +90,15 @@ export function ChordList({
 
 function ChordButton({
   chord,
-  name,
+  notation,
   onPlay,
 }: {
   chord: DiatonicChord;
-  name: string;
+  notation: Notation;
   onPlay: () => void;
 }) {
   const { t } = useTranslation();
+  const name = chordName(chord, notation);
   return (
     <Button
       variant="outline"
@@ -105,6 +107,7 @@ function ChordButton({
       onClick={onPlay}
     >
       <span className="text-lg font-bold">{name}</span>
+      <span className="text-sm">{chordNoteNames(chord, notation)}</span>
       <span className="text-muted-foreground text-sm">{chord.numeral}</span>
     </Button>
   );
