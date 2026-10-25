@@ -21,9 +21,9 @@ import { WakeLockButton } from "./wake-lock-button";
 
 // One screen: the chosen scale, its keys and its chords. Root and scale sit
 // in the bottom bar, within the thumb's reach, beside settings and the
-// keep-the-screen-on switch. In landscape the column widens so two octaves
-// fit without scrolling, clear of the notch, and the scale and its keyboard
-// fit above the bar.
+// keep-the-screen-on switch. The keyboard spans the screen's whole width;
+// in landscape the column widens, clear of the notch, and the scale and its
+// keyboard fit above the bar.
 export function HomeView() {
   const { t } = useTranslation();
   const { practice, keyboard, notation } = useAppSettings();
@@ -39,7 +39,7 @@ export function HomeView() {
   );
 
   return (
-    <div className="mx-auto flex min-h-dvh w-[min(100%,480px)] flex-col gap-6 pt-[calc(env(safe-area-inset-top)+24px)] pr-[max(20px,env(safe-area-inset-right))] pl-[max(20px,env(safe-area-inset-left))] landscape:w-full landscape:max-w-5xl landscape:gap-3 landscape:pt-[calc(env(safe-area-inset-top)+12px)]">
+    <div className="mx-auto flex min-h-dvh w-[min(100%,480px)] flex-col gap-6 pt-[calc(env(safe-area-inset-top)+24px)] pr-(--gutter-right) pl-(--gutter-left) landscape:w-full landscape:max-w-5xl landscape:gap-3 landscape:pt-[calc(env(safe-area-inset-top)+12px)]">
       {/* A landscape phone has little height: the keyboard goes first, the
           app's name stays for screen readers. */}
       <div className="landscape:sr-only">

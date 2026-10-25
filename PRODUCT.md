@@ -23,8 +23,9 @@ landscape.
   so F major reads B♭, not A♯), degrees (1 2 ♭3 …) and steps in tones.
 - **Keyboard**: the scale's keys lit, the root in its own colour, each lit
   key labelled; unlit Cs carry their octave (C4 is middle C). 1–4 octaves
-  from a chosen C (Settings). In portrait it scrolls sideways; in
-  landscape two octaves fit with no scrolling. Tapping a key plays it.
+  from a chosen C (Settings). It spans the screen's width, white keys at
+  least 56px wide in either orientation (black ones two thirds of that),
+  scrolling sideways when they don't fit. Tapping a key plays it.
 - **Chords** for seven-note scales, one per degree with its Roman numeral
   (upper case major, lower case minor): the triads, then the seventh
   chords (Cmaj7, Dm7, G7, Bm7♭5 — viiø7, …), each group under its own

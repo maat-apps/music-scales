@@ -11,7 +11,7 @@ import { synth } from "../../lib/synth";
 
 /** A black key's width, and how far it reaches over the white key on its
  * left, as a share of a white key. */
-const BLACK_KEY_WIDTH = 0.62;
+const BLACK_KEY_WIDTH = 0.66;
 
 export function PianoKeyboard({
   prefs,
@@ -43,11 +43,12 @@ export function PianoKeyboard({
 
   return (
     <section aria-label={t("keyboard")} className="grid gap-2">
-      <div className="-mx-1 [scrollbar-width:thin] overflow-x-auto overscroll-x-contain px-1">
+      {/* Edge to edge: through the page's side padding, short of the notch. */}
+      <div className="mr-[calc(env(safe-area-inset-right)_-_var(--gutter-right))] ml-[calc(env(safe-area-inset-left)_-_var(--gutter-left))] [scrollbar-width:thin] overflow-x-auto overscroll-x-contain">
         <div
           className="relative flex h-44 touch-pan-x select-none landscape:h-32"
-          // --white-key-min (globals.css): a comfortable tap, narrower in
-          // landscape so two octaves fit even a 667px-wide phone.
+          // --white-key-min (globals.css): a roomy tap; the keys widen to
+          // fill the screen when they'd leave it partly empty.
           style={{ minWidth: `calc(${whiteCount} * var(--white-key-min))` }}
         >
           {keys.map((key) => {

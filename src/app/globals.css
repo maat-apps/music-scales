@@ -19,13 +19,12 @@
   --key-scale: oklch(0.8 0.14 75);
   --key-root: oklch(0.65 0.18 35);
   --key-ink: oklch(0.2 0 0);
-  --white-key-min: 44px;
-}
-
-@media (orientation: landscape) {
-  :root {
-    --white-key-min: 40px;
-  }
+  /* A white key's narrowest, in either orientation: a roomy tap. */
+  --white-key-min: 56px;
+  /* The page's side padding, clear of the notch; the keyboard bleeds
+     through it to the screen's edges. */
+  --gutter-left: max(20px, env(safe-area-inset-left));
+  --gutter-right: max(20px, env(safe-area-inset-right));
 }
 
 @layer components {

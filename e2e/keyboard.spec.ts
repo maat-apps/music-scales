@@ -6,12 +6,30 @@ function keyboard(page: Page) {
   return page.getByRole("region", { name: "Klawiatura" });
 }
 
-/** Whether the keyboard's own scroller has more than it shows. */
-function scrollsSideways(page: Page) {
+/** The keyboard's own scroller. */
+function scroller(page: Page) {
+  return keyboard(page).locator("> div").first();
+}
+
+/** The narrowest white key, in CSS pixels. */
+function narrowestWhiteKey(page: Page) {
   return keyboard(page)
-    .locator("> div")
-    .first()
-    .evaluate((scroller) => scroller.scrollWidth > scroller.clientWidth + 1);
+    .locator("button:not([data-black])")
+    .evaluateAll((keys) =>
+      Math.min(...keys.map((key) => key.getBoundingClientRect().width)),
+    );
+}
+
+/** The keyboard spans the viewport, and the page itself doesn't scroll. */
+async function expectEdgeToEdge(page: Page) {
+  const box = (await scroller(page).boundingBox())!;
+  expect(box.x).toBe(0);
+  expect(box.width).toBe(page.viewportSize()!.width);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
 }
 
 test("sets the octaves and the start octave", async ({ page }) => {
@@ -43,20 +61,16 @@ test("labels the scale's notes on their keys", async ({ page }) => {
   ).toHaveText("B♭");
 });
 
-test("scrolls sideways in portrait, fits two octaves in landscape", async ({
+test("keeps white keys 56px wide, edge to edge, in both orientations", async ({
   page,
 }) => {
   await goHome(page);
-  expect(await scrollsSideways(page)).toBe(true);
+  expect(await narrowestWhiteKey(page)).toBeGreaterThanOrEqual(56);
+  await expectEdgeToEdge(page);
 
   const { width, height } = page.viewportSize()!;
   await page.setViewportSize({ width: height, height: width });
 
-  await expect.poll(() => scrollsSideways(page)).toBe(false);
-  // Nor does the page itself.
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth,
-    ),
-  ).toBe(true);
+  await expect.poll(() => narrowestWhiteKey(page)).toBeGreaterThanOrEqual(56);
+  await expectEdgeToEdge(page);
 });

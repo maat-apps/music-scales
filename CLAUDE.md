@@ -67,7 +67,8 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
   field is validated on load and falls back on its own.
 - **Screen**: one view, `views/home/` — summary, `piano-keyboard.tsx`
   (keys styled by `globals.css`'s `.piano-key`: the key colours are this
-  app's own, on top of the shared theme), `chord-list.tsx` (triads, then seventh chords); root/scale
+  app's own, on top of the shared theme; white keys ≥ 56px, the keyboard
+  bleeding through the `--gutter-*` side padding), `chord-list.tsx` (triads, then seventh chords); root/scale
   selects and the wake-lock button in `BottomBar`. In landscape the column
   widens (safe-area padding for the notch) and the app title becomes
   screen-reader-only so the keyboard fits above the bar. Settings is a
