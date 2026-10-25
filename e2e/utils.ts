@@ -39,10 +39,7 @@ export function keysWithRole(page: Page, role: "root" | "scale" | "none") {
 
 /** The names of a chord group's buttons ("Trójdźwięki", "Akordy
  * septymowe"), in order. */
-export async function chordNames(
-  page: Page,
-  group: string,
-): Promise<string[]> {
+export async function chordNames(page: Page, group: string): Promise<string[]> {
   const labels = await page
     .getByRole("region", { name: group })
     .getByRole("button", { name: /^Zagraj akord / })
