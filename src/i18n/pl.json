@@ -30,7 +30,7 @@
   "sevenths": "Akordy septymowe",
   "triadsHint": "Zbudowane z co drugiego dźwięku skali. Duża cyfra rzymska to akord durowy, mała to mollowy.",
   "seventhsHint": "Do trójdźwięku dochodzi septyma, kolejny co drugi dźwięk skali. maj7 to septyma wielka, 7 – mała, ø – akord półzmniejszony, ° – zmniejszony.",
-  "playChord": "Zagraj akord {chord}",
+  "playChord": "Zagraj akord {chord}: {notes}",
   "noChordsTitle": "Akordy",
   "noChordsDescription": "Pentatoniki i skala bluesowa nie mają klasycznego zestawu akordów na każdym stopniu. Najlepiej grać nimi melodie na akordach z odpowiedniej skali durowej lub mollowej.",
   "tip": "Wskazówka: dur i jego równoległy moll używają tych samych klawiszy. C-dur i a-moll to same białe, a G-dur i e-moll różnią się od nich tylko F♯. Jeśli znasz jedną skalę, drugą masz za darmo.",

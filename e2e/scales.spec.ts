@@ -49,6 +49,10 @@ test("shows seventh chords on every degree", async ({ page }) => {
       .getByRole("region", { name: "Akordy septymowe" })
       .getByText("B D F A", { exact: true }),
   ).toBeVisible();
+  // Screen readers hear the notes too.
+  await expect(
+    page.getByRole("button", { name: "Zagraj akord Bm7♭5: B D F A" }),
+  ).toBeVisible();
 });
 
 test("follows the chosen root and scale", async ({ page }) => {

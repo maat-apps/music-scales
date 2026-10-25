@@ -99,15 +99,16 @@ function ChordButton({
 }) {
   const { t } = useTranslation();
   const name = chordName(chord, notation);
+  const notes = chordNoteNames(chord, notation);
   return (
     <Button
       variant="outline"
-      aria-label={t("playChord", { chord: name })}
+      aria-label={t("playChord", { chord: name, notes })}
       className="grid h-auto min-h-16 w-full gap-0.5 rounded-xl py-2"
       onClick={onPlay}
     >
       <span className="text-lg font-bold">{name}</span>
-      <span className="text-sm">{chordNoteNames(chord, notation)}</span>
+      <span className="text-sm">{notes}</span>
       <span className="text-muted-foreground text-sm">{chord.numeral}</span>
     </Button>
   );
