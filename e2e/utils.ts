@@ -37,9 +37,14 @@ export function keysWithRole(page: Page, role: "root" | "scale" | "none") {
     .locator(`button[data-role="${role}"]`);
 }
 
-/** The chord buttons' names, in order. */
-export async function chordNames(page: Page): Promise<string[]> {
+/** The names of a chord group's buttons ("Trójdźwięki", "Akordy
+ * septymowe"), in order. */
+export async function chordNames(
+  page: Page,
+  group: string,
+): Promise<string[]> {
   const labels = await page
+    .getByRole("region", { name: group })
     .getByRole("button", { name: /^Zagraj akord / })
     .evaluateAll((buttons) =>
       buttons.map((button) => button.getAttribute("aria-label") ?? ""),
