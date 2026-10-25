@@ -1,0 +1,85 @@
+@import "tailwindcss";
+/* The Ma'at Apps theme — true black + white on Outfit, the tokens, base
+   styles, the phone-sized variant (MobileGate) and ProgressRing's
+   animation. Every app shares it; don't redefine those tokens here, only
+   add what's genuinely this app's own below. */
+@import "@maat-apps/ui/theme.css";
+
+/* @maat-apps/ui's compiled components live in node_modules, which Tailwind
+   doesn't scan by default — without this their classes get purged. The
+   whole dist/, because shared chunk-*.js files have no stable names. */
+@source "../../node_modules/@maat-apps/ui/dist";
+
+/* The keyboard is this app's own: real key colours rather than theme
+   tokens, plus the two highlights — the scale's notes and its root. */
+:root {
+  --key-white: oklch(0.97 0 0);
+  --key-black: oklch(0.2 0 0);
+  --key-edge: oklch(0.45 0 0);
+  --key-scale: oklch(0.8 0.14 75);
+  --key-root: oklch(0.65 0.18 35);
+  --key-ink: oklch(0.2 0 0);
+}
+
+@layer components {
+  .piano-key {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-right: -1px;
+    padding-bottom: 10px;
+    border: 1px solid var(--key-edge);
+    border-radius: 0 0 8px 8px;
+    background: var(--key-white);
+    color: oklch(0.55 0 0);
+    font-size: 0.8rem;
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-x;
+  }
+
+  .piano-key[data-black] {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    height: 60%;
+    padding-bottom: 8px;
+    border-color: var(--key-edge);
+    background: var(--key-black);
+    font-size: 0.7rem;
+  }
+
+  .piano-key[data-role="scale"] {
+    background: var(--key-scale);
+    color: var(--key-ink);
+  }
+
+  .piano-key[data-role="root"] {
+    background: var(--key-root);
+    color: white;
+  }
+
+  .piano-key:active {
+    filter: brightness(0.85);
+  }
+
+  .piano-key:focus-visible {
+    z-index: 2;
+    outline: 3px solid var(--ring);
+    outline-offset: -3px;
+  }
+
+  .piano-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--key-scale);
+  }
+
+  .piano-swatch[data-role="root"] {
+    background: var(--key-root);
+  }
+}
