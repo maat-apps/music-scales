@@ -9,9 +9,6 @@ import {
 } from "../../lib/music/notes";
 import { synth } from "../../lib/synth";
 
-/** A white key's narrowest width, in px — a comfortable tap. Two octaves
- * (15 white keys) still fit a landscape phone without scrolling. */
-const MIN_WHITE_KEY_PX = 44;
 /** A black key's width, and how far it reaches over the white key on its
  * left, as a share of a white key. */
 const BLACK_KEY_WIDTH = 0.62;
@@ -49,7 +46,9 @@ export function PianoKeyboard({
       <div className="-mx-1 [scrollbar-width:thin] overflow-x-auto overscroll-x-contain px-1">
         <div
           className="relative flex h-44 touch-pan-x select-none landscape:h-32"
-          style={{ minWidth: whiteCount * MIN_WHITE_KEY_PX }}
+          // --white-key-min (globals.css): a comfortable tap, narrower in
+          // landscape so two octaves fit even a 667px-wide phone.
+          style={{ minWidth: `calc(${whiteCount} * var(--white-key-min))` }}
         >
           {keys.map((key) => {
             const scaleNote = scaleNotes.get(key.pitchClass);
