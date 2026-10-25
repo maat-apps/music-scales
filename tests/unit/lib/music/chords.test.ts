@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   chordKind,
   chordName,
+  chordNoteNames,
   diatonicChords,
   type ChordSize,
 } from "@/lib/music/chords";
@@ -123,6 +124,26 @@ describe("diatonicChords — seventh chords", () => {
   it("writes H in Polish notation", () => {
     expect(chords(0, "major", 4, "polish")[6]).toEqual(["Hm7♭5", "viiø7"]);
     expect(chords(5, "major", 4, "polish")[3]).toEqual(["Bmaj7", "IVmaj7"]);
+  });
+
+  it("lists each chord's notes, spelled like the scale", () => {
+    const sevenths = diatonicChords(5, scaleById("major"), 4)!;
+    expect(
+      sevenths.map((chord) => chordNoteNames(chord, "international")),
+    ).toEqual([
+      "F A C E",
+      "G B♭ D F",
+      "A C E G",
+      "B♭ D F A",
+      "C E G B♭",
+      "D F A C",
+      "E G B♭ D",
+    ]);
+  });
+
+  it("names a chord's notes in Polish notation", () => {
+    const [, , , , dominant] = diatonicChords(0, scaleById("major"), 3)!;
+    expect(chordNoteNames(dominant, "polish")).toBe("G H D");
   });
 
   it("stacks thirds past the octave", () => {

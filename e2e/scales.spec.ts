@@ -44,6 +44,11 @@ test("shows seventh chords on every degree", async ({ page }) => {
     "Bm7♭5",
   ]);
   await expect(page.getByText("viiø7")).toBeVisible();
+  await expect(
+    page
+      .getByRole("region", { name: "Akordy septymowe" })
+      .getByText("B D F A", { exact: true }),
+  ).toBeVisible();
 });
 
 test("follows the chosen root and scale", async ({ page }) => {

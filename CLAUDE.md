@@ -51,7 +51,7 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
   `scales.ts` (each scale is a list of degrees, `"1 2 ♭3 4 5 ♭6 ♭7"`, so
   spelling follows from the degree numbers; `spellScale` picks the root
   name needing fewer accidentals, a tie keeps the sharp), `chords.ts`
-  (`diatonicChords`: stacked thirds per degree, 3 or 4 notes, named by
+  (`diatonicChords`: stacked thirds per degree, 3 or 4 notes, spelled like the scale, named by
   their intervals in `CHORD_KINDS` — symbol and Roman-numeral suffix) and
   `keyboard.ts` (keys from C of the start octave, C4 = MIDI 60).
 - **Sound**: `lib/synth.ts` — Web Audio, one triangle oscillator per note,
