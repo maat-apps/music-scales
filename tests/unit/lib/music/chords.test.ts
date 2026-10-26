@@ -4,6 +4,7 @@ import {
   chordKind,
   chordName,
   chordNoteNames,
+  chordVoicings,
   diatonicChords,
   type ChordSize,
 } from "@/lib/music/chords";
@@ -170,6 +171,29 @@ describe("diatonicChords — other scales", () => {
     clusters.degrees[2] = { step: 3, alteration: -2 };
     const [first] = diatonicChords(0, clusters, 3)!;
     expect(first.symbol).toBe("?");
+  });
+});
+
+describe("chordVoicings", () => {
+  it("inverts a triad twice", () => {
+    const [tonic] = diatonicChords(0, scaleById("major"), 3)!;
+    const voicings = chordVoicings(tonic);
+    expect(
+      voicings.map((voicing) => chordNoteNames(voicing, "international")),
+    ).toEqual(["C E G", "E G C", "G C E"]);
+    expect(voicings.map((voicing) => voicing.semitones)).toEqual([
+      [0, 4, 7],
+      [4, 7, 12],
+      [7, 12, 16],
+    ]);
+  });
+
+  it("inverts a seventh chord three times, keeping the scale's spelling", () => {
+    const [, , , , dominant] = diatonicChords(5, scaleById("major"), 4)!;
+    const voicings = chordVoicings(dominant);
+    expect(voicings.map((voicing) => voicing.inversion)).toEqual([0, 1, 2, 3]);
+    expect(chordNoteNames(voicings[3], "international")).toBe("B♭ C E G");
+    expect(voicings[3].semitones).toEqual([17, 19, 23, 26]);
   });
 });
 
