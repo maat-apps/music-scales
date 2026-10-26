@@ -43,6 +43,7 @@
   "tip": "Tip: a major scale and its relative minor use the same keys. C major and A minor are all white keys, and G major and E minor differ from them only by F♯. Know one scale and you get the other for free.",
   "wakeLock": "Keep the screen on",
   "wakeLockOn": "The screen stays on",
+  "wakeLockOff": "The screen may turn off",
   "sectionNotation": "Notation",
   "polishNotation": "Polish H instead of B",
   "polishNotationDescription": "H is B, and B is B♭.",

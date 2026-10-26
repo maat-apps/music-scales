@@ -43,6 +43,7 @@
   "tip": "Wskazówka: dur i jego równoległy moll używają tych samych klawiszy. C-dur i a-moll to same białe, a G-dur i e-moll różnią się od nich tylko F♯. Jeśli znasz jedną skalę, drugą masz za darmo.",
   "wakeLock": "Nie wygaszaj ekranu",
   "wakeLockOn": "Ekran nie zgaśnie",
+  "wakeLockOff": "Ekran może zgasnąć",
   "sectionNotation": "Notacja",
   "polishNotation": "Polskie H zamiast B",
   "polishNotationDescription": "H to B, a B to B♭.",

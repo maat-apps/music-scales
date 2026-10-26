@@ -36,6 +36,7 @@ test("keeps the screen on, and shows it", async ({ page }) => {
   await expect(button).toHaveAttribute("aria-pressed", "false");
   await button.click();
   await expect(button).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("status")).toHaveText("Ekran nie zgaśnie");
   expect(
     await page.evaluate(
       () => (window as unknown as { wakeRequests: number }).wakeRequests,
@@ -44,6 +45,7 @@ test("keeps the screen on, and shows it", async ({ page }) => {
 
   await button.click();
   await expect(button).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByRole("status")).toHaveText("Ekran może zgasnąć");
 });
 
 test("has no button where the browser can't keep the screen on", async ({
