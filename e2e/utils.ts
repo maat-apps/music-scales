@@ -50,18 +50,13 @@ export function keysWithRole(page: Page, role: "root" | "scale" | "none") {
     .locator(`button[data-role="${role}"]`);
 }
 
-/** The names of a chord group's buttons ("Trójdźwięki", "Akordy
- * septymowe"), in order — their labels without the notes after the colon. */
+/** The chord names in a group ("Trójdźwięki", "Akordy septymowe"), in
+ * order: each chord card's heading. */
 export async function chordNames(page: Page, group: string): Promise<string[]> {
-  const labels = await page
+  return page
     .getByRole("region", { name: group })
-    .getByRole("button", { name: /^Zagraj akord / })
-    .evaluateAll((buttons) =>
-      buttons.map((button) => button.getAttribute("aria-label") ?? ""),
-    );
-  return labels.map((label) =>
-    label.replace("Zagraj akord ", "").replace(/:.*/, ""),
-  );
+    .getByRole("heading", { level: 4 })
+    .allTextContents();
 }
 
 /**

@@ -32,8 +32,10 @@ landscape.
 - **Chords** for seven-note scales, one per degree with its Roman numeral
   (upper case major, lower case minor): the triads, then the seventh
   chords (Cmaj7, Dm7, G7, Bm7♭5 — viiø7, …), each group under its own
-  heading and explanation; each shows its notes (G B D F), and tapping
-  plays one.
+  heading and explanation. Each chord lists its root position and every
+  inversion (two for a triad, three for a seventh chord), one per row: the
+  notes (G B D F) and a small keyboard with those keys lit, the bass in
+  the root's colour; tapping a row plays it.
   Pentatonics and blues explain why they have none.
 - **Polish notation** (Settings): H for B, B for B♭ — everywhere notes are
   named.

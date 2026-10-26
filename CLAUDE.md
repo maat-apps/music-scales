@@ -68,7 +68,8 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
 - **Screen**: one view, `views/home/` — summary, `piano-keyboard.tsx`
   (keys styled by `globals.css`'s `.piano-key`: the key colours are this
   app's own, on top of the shared theme; white keys ≥ 56px, the keyboard
-  bleeding through the `--gutter-*` side padding), `chord-list.tsx` (triads, then seventh chords); the wake-lock
+  bleeding through the `--gutter-*` side padding), `chord-list.tsx` (triads, then seventh chords, each a card with a row per
+  `chordVoicings` inversion, pictured by `chord-keys.tsx`); the wake-lock
   and settings buttons in the header; a FAB naming the scale opens
   `scale-picker-drawer.tsx`, two `wheel-picker.tsx` columns (scroll-snap
   listboxes: a flick chooses once settled, a tap or arrow key at once). In

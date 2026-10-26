@@ -52,7 +52,9 @@ test("shows seventh chords on every degree", async ({ page }) => {
   ).toBeVisible();
   // Screen readers hear the notes too.
   await expect(
-    page.getByRole("button", { name: "Zagraj akord Bm7♭5: B D F A" }),
+    page.getByRole("button", {
+      name: "Zagraj akord Bm7♭5, postać zasadnicza: B D F A",
+    }),
   ).toBeVisible();
 });
 
@@ -149,4 +151,26 @@ test("chooses the row a flick settles on", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "D dur (jońska)" }),
   ).toBeVisible();
+});
+
+test("shows every inversion of a chord, its keys pictured", async ({
+  page,
+}) => {
+  await goHome(page);
+  const triads = page.getByRole("region", { name: "Trójdźwięki" });
+
+  for (const name of [
+    "Zagraj akord C, postać zasadnicza: C E G",
+    "Zagraj akord C, 1. przewrót: E G C",
+    "Zagraj akord C, 2. przewrót: G C E",
+  ]) {
+    await expect(triads.getByRole("button", { name })).toBeVisible();
+  }
+  await expect(
+    page
+      .getByRole("region", { name: "Akordy septymowe" })
+      .getByRole("button", { name: "Zagraj akord G7, 3. przewrót: F G B D" }),
+  ).toBeVisible();
+  // One small keyboard per voicing: 7 × 3 triads, 7 × 4 seventh chords.
+  await expect(page.locator("section svg")).toHaveCount(7 * 3 + 7 * 4);
 });

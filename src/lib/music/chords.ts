@@ -1,4 +1,9 @@
-import { noteName, type Notation, type SpelledNote } from "./notes";
+import {
+  noteName,
+  PITCH_CLASS_COUNT,
+  type Notation,
+  type SpelledNote,
+} from "./notes";
 import { isHeptatonic, scaleSemitones, spellScale, type Scale } from "./scales";
 
 // Diatonic chords: stack every other note of a seven-note scale on each
@@ -85,10 +90,38 @@ export function chordName(chord: DiatonicChord, notation: Notation): string {
   return noteName(chord.notes[0], notation) + chord.symbol;
 }
 
-/** "C E G B", or in Polish notation "C E G H". */
+/** A chord or one of its voicings as "C E G B", or in Polish notation
+ * "C E G H". */
 export function chordNoteNames(
-  chord: DiatonicChord,
+  chord: { notes: SpelledNote[] },
   notation: Notation,
 ): string {
   return chord.notes.map((note) => noteName(note, notation)).join(" ");
+}
+
+/** One way to stack a chord's notes, lowest first. */
+export type ChordVoicing = {
+  /** 0 for root position, 1 for the first inversion, and so on. */
+  inversion: number;
+  notes: SpelledNote[];
+  /** Semitones above the scale's root, ascending. */
+  semitones: number[];
+};
+
+/** Root position, then each inversion: the next one up moves the lowest
+ * note an octave higher, so a triad has two and a seventh chord three. */
+export function chordVoicings(chord: DiatonicChord): ChordVoicing[] {
+  return chord.notes.map((_, inversion) => ({
+    inversion,
+    notes: [
+      ...chord.notes.slice(inversion),
+      ...chord.notes.slice(0, inversion),
+    ],
+    semitones: [
+      ...chord.semitones.slice(inversion),
+      ...chord.semitones
+        .slice(0, inversion)
+        .map((tone) => tone + PITCH_CLASS_COUNT),
+    ],
+  }));
 }
