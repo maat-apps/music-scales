@@ -37,8 +37,9 @@ landscape.
   Pentatonics and blues explain why they have none.
 - **Polish notation** (Settings): H for B, B for B♭ — everywhere notes are
   named.
-- **Keep the screen on**: a coffee-cup button in the header, beside
-  settings (Screen Wake Lock), filled while on; taken again on returning to the app, and absent where
+- **Keep the screen on**: a phone button in the header, beside settings
+  (Screen Wake Lock), filled while on, each tap saying in a short note
+  what it did ("Ekran nie zgaśnie" / "Ekran może zgasnąć"); taken again on returning to the app, and absent where
   the browser has no Wake Lock.
 - **Remembered**: root, scale, octaves, start octave and
   notation come back on the next launch.
