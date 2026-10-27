@@ -44,7 +44,7 @@
     border-radius: 0 0 8px 8px;
     background: var(--key-off-white);
     color: var(--key-ink-off);
-    font-size: 0.8rem;
+    font-size: 14px;
     font-weight: 600;
     -webkit-tap-highlight-color: transparent;
     touch-action: pan-x;
@@ -57,7 +57,6 @@
     height: 60%;
     padding-bottom: 8px;
     background: var(--key-off-black);
-    font-size: 0.7rem;
   }
 
   .piano-key:not([data-role="none"]) {
@@ -73,17 +72,12 @@
   .piano-key[data-role="root"] > span {
     display: grid;
     place-items: center;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     margin-bottom: -4px;
     border-radius: 50%;
     background: var(--key-root);
     color: white;
-  }
-
-  .piano-key[data-black][data-role="root"] > span {
-    width: 20px;
-    height: 20px;
   }
 
   .piano-key:active {
