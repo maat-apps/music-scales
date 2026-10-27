@@ -12,18 +12,17 @@
 
 /* The keyboard is this app's own: keys outside the scale grey, the
    scale's notes real white and black keys, and the root marked by a dot
-   of its one accent colour. The greys sit midway, as far from white as
-   from black. */
+   of its one accent colour. */
 :root {
   --key-white: oklch(0.97 0 0);
   --key-black: oklch(0.2 0 0);
-  --key-off-white: oklch(0.55 0 0);
-  --key-off-black: oklch(0.42 0 0);
+  --key-off-white: oklch(0.72 0 0);
+  --key-off-black: oklch(0.6 0 0);
   --key-edge: oklch(0.28 0 0);
   --key-root: oklch(0.7 0.18 50);
   --key-ink: oklch(0.3 0 0);
   --key-ink-black: oklch(0.85 0 0);
-  --key-ink-off: oklch(0.38 0 0);
+  --key-ink-off: oklch(0.45 0 0);
   /* A white key's narrowest, in either orientation: a roomy tap. */
   --white-key-min: 56px;
   /* The page's side padding, clear of the notch; the keyboard bleeds
