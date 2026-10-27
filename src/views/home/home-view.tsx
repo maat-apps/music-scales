@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@maat-apps/ui/button";
 import { FabButton } from "@maat-apps/ui/fab-button";
 import { PageTitle } from "@maat-apps/ui/page-header";
+import { SettingsDrawer } from "@maat-apps/ui/settings-sections";
 import { useAppSettings } from "../../hooks/use-app-settings";
 import { useTranslation } from "../../i18n/use-translation";
 import { noteName } from "../../lib/music/notes";
@@ -12,7 +13,7 @@ import {
   scaleNotesByPitchClass,
   spellScale,
 } from "../../lib/music/scales";
-import { SettingsDrawer } from "../settings/settings-drawer";
+import { SettingsPanel } from "../settings/settings-panel";
 
 import { ChordList } from "./chord-list";
 import { HEADER_BUTTON_CLASS } from "./header-button";
@@ -88,7 +89,13 @@ export function HomeView() {
         </FabButton>
       </div>
       <ScalePickerDrawer open={pickerOpen} onOpenChange={setPickerOpen} />
-      <SettingsDrawer open={settingsOpen} onOpenChange={setSettingsOpen} />
+      <SettingsDrawer
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        title={t("settings")}
+      >
+        <SettingsPanel />
+      </SettingsDrawer>
     </div>
   );
 }
