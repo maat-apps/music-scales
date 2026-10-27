@@ -31,9 +31,16 @@ function keysFrom(lowestC: number): Key[] {
   });
 }
 
+/** The dot marking the bass: its radius, and its centre's height on a
+ * white and a black key. */
+const DOT_RADIUS = 3;
+const WHITE_DOT_Y = WHITE_HEIGHT - 7;
+const BLACK_DOT_Y = BLACK_HEIGHT - 6;
+
 /**
- * A small keyboard picture of one voicing: its keys lit, the lowest (the
- * bass) in the root's colour. Decorative; the notes are named beside it.
+ * A small keyboard picture of one voicing, coloured like the big keyboard:
+ * its keys real white and black, the rest grey, and the lowest (the bass)
+ * marked with the root's dot. Decorative; the notes are named beside it.
  */
 export function ChordKeys({ midis }: { midis: number[] }) {
   const lowestC = midis[0] - (midis[0] % PITCH_CLASS_COUNT);
@@ -41,9 +48,23 @@ export function ChordKeys({ midis }: { midis: number[] }) {
   const width = OCTAVES * WHITES_PER_OCTAVE * WHITE_WIDTH;
 
   function fill(key: Key): string {
-    if (key.midi === midis[0]) return "var(--key-root)";
-    if (midis.includes(key.midi)) return "var(--key-scale)";
-    return key.black ? "var(--key-black)" : "var(--key-white)";
+    if (midis.includes(key.midi)) {
+      return key.black ? "var(--key-black)" : "var(--key-white)";
+    }
+    return key.black ? "var(--key-off-black)" : "var(--key-off-white)";
+  }
+
+  function dot(key: Key) {
+    const width = key.black ? BLACK_WIDTH : WHITE_WIDTH;
+    return (
+      <circle
+        key={`dot-${key.midi}`}
+        cx={key.x + width / 2}
+        cy={key.black ? BLACK_DOT_Y : WHITE_DOT_Y}
+        r={DOT_RADIUS}
+        fill="var(--key-root)"
+      />
+    );
   }
 
   return (
@@ -70,6 +91,7 @@ export function ChordKeys({ midis }: { midis: number[] }) {
             />
           )),
       )}
+      {keys.filter((key) => key.midi === midis[0]).map(dot)}
     </svg>
   );
 }
