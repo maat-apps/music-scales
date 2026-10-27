@@ -10,15 +10,19 @@
    whole dist/, because shared chunk-*.js files have no stable names. */
 @source "../../node_modules/@maat-apps/ui/dist";
 
-/* The keyboard is this app's own: real key colours rather than theme
-   tokens, plus the two highlights — the scale's notes and its root. */
+/* The keyboard is this app's own: keys outside the scale grey, the
+   scale's notes real white and black keys, and the root marked by a dot
+   of its one accent colour. */
 :root {
   --key-white: oklch(0.97 0 0);
   --key-black: oklch(0.2 0 0);
-  --key-edge: oklch(0.45 0 0);
-  --key-scale: oklch(0.8 0.14 75);
-  --key-root: oklch(0.65 0.18 35);
-  --key-ink: oklch(0.2 0 0);
+  --key-off-white: oklch(0.72 0 0);
+  --key-off-black: oklch(0.6 0 0);
+  --key-edge: oklch(0.28 0 0);
+  --key-root: oklch(0.7 0.18 50);
+  --key-ink: oklch(0.3 0 0);
+  --key-ink-black: oklch(0.85 0 0);
+  --key-ink-off: oklch(0.45 0 0);
   /* A white key's narrowest, in either orientation: a roomy tap. */
   --white-key-min: 56px;
   /* The page's side padding, clear of the notch; the keyboard bleeds
@@ -38,9 +42,9 @@
     padding-bottom: 10px;
     border: 1px solid var(--key-edge);
     border-radius: 0 0 8px 8px;
-    background: var(--key-white);
-    color: oklch(0.55 0 0);
-    font-size: 0.8rem;
+    background: var(--key-off-white);
+    color: var(--key-ink-off);
+    font-size: 14px;
     font-weight: 600;
     -webkit-tap-highlight-color: transparent;
     touch-action: pan-x;
@@ -52,17 +56,26 @@
     z-index: 1;
     height: 60%;
     padding-bottom: 8px;
-    border-color: var(--key-edge);
-    background: var(--key-black);
-    font-size: 0.7rem;
+    background: var(--key-off-black);
   }
 
-  .piano-key[data-role="scale"] {
-    background: var(--key-scale);
+  .piano-key:not([data-role="none"]) {
+    background: var(--key-white);
     color: var(--key-ink);
   }
 
-  .piano-key[data-role="root"] {
+  .piano-key[data-black]:not([data-role="none"]) {
+    background: var(--key-black);
+    color: var(--key-ink-black);
+  }
+
+  .piano-key[data-role="root"] > span {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-bottom: -4px;
+    border-radius: 50%;
     background: var(--key-root);
     color: white;
   }
@@ -81,11 +94,19 @@
     display: inline-block;
     width: 12px;
     height: 12px;
+    border: 1px solid var(--key-edge);
     border-radius: 3px;
-    background: var(--key-scale);
+    /* A white key and a black one, the scale's two kinds. */
+    background: linear-gradient(
+      135deg,
+      var(--key-white) 50%,
+      var(--key-black) 50%
+    );
   }
 
   .piano-swatch[data-role="root"] {
+    border: none;
+    border-radius: 50%;
     background: var(--key-root);
   }
 }

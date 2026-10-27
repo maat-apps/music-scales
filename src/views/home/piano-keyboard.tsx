@@ -80,9 +80,12 @@ export function PianoKeyboard({
                   if (event.detail === 0) synth.play([key.midi]);
                 }}
               >
-                {scaleNote
-                  ? noteName(scaleNote, notation)
-                  : key.pitchClass === 0 && `C${key.octave}`}
+                {/* A span, so the root's can wear its dot (globals.css). */}
+                <span>
+                  {scaleNote
+                    ? noteName(scaleNote, notation)
+                    : key.pitchClass === 0 && `C${key.octave}`}
+                </span>
               </button>
             );
           })}
