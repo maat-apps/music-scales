@@ -61,7 +61,7 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
   `hooks/use-wake-lock.ts`) keeps the user's intent and re-requests the
   lock on `visibilitychange` — the browser drops it whenever the page is
   hidden. `"unsupported"` hides the button.
-- **Settings** (`lib/app-settings.ts`, `@maat-apps/core/persisted`,
+- **Settings** (`lib/app-settings.ts`, `@maat-apps/core/app-settings`,
   IndexedDB): `practice` (root, scale), `keyboard` (octaves,
   startOctave), `notation`, plus the lock and install state; every stored
   field is validated on load and falls back on its own.
@@ -74,7 +74,9 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
   `scale-picker-drawer.tsx`, two `wheel-picker.tsx` columns (scroll-snap
   listboxes: a flick chooses once settled, a tap or arrow key at once). In
   landscape the column widens (safe-area padding for the notch). Settings
-  is a drawer (`views/settings/`).
+  is a drawer (`@maat-apps/ui/settings-sections`' `SettingsDrawer`):
+  `views/settings/settings-panel.tsx` puts Scales' notation and keyboard
+  sections before ui's Language, Security and App sections.
 - **i18n.** `src/i18n/pl.json` and `en.json`, Polish the fallback; `t()`
   only accepts keys present in both (a unit test checks they match).
 - **E2E** runs in Polish (`locale: "pl-PL"` in `playwright.config.ts`).

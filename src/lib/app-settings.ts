@@ -1,9 +1,4 @@
-import {
-  DEFAULT_RELOCK_AFTER_MS,
-  type LockEnrolment,
-  parseLockEnrolment,
-} from "@maat-apps/core/lock";
-import { createPersistedStore } from "@maat-apps/core/persisted";
+import { createAppSettings } from "@maat-apps/core/app-settings";
 
 import { keyValueStore } from "./idb-store";
 import {
@@ -16,9 +11,9 @@ import { NOTATIONS, type Notation, PITCH_CLASS_COUNT } from "./music/notes";
 import { SCALE_IDS, type ScaleId } from "./music/scales";
 import { SETTINGS_KEY } from "./storage-keys";
 
-// Everything this app remembers: the app lock's enrolment, browser/install
-// state, and what was last practised. @maat-apps/core/persisted keeps them
-// in memory, backed by IndexedDB.
+// Everything this app remembers: @maat-apps/core/app-settings' lock
+// enrolment, relock choice and installed flag, plus what was last practised
+// and how it's shown.
 
 /** What's on screen: restored on the next launch. */
 export type PracticePrefs = {
@@ -30,27 +25,6 @@ export type PracticePrefs = {
 export type KeyboardPrefs = {
   octaves: OctaveCount;
   startOctave: StartOctave;
-};
-
-/** Right away, after 30 seconds in the background, or only once closed. */
-export const RELOCK_CHOICES = ["now", "30s", "close"] as const;
-export type RelockAfter = (typeof RELOCK_CHOICES)[number];
-
-const RELOCK_AFTER_MS: Record<RelockAfter, number | null> = {
-  now: 0,
-  "30s": DEFAULT_RELOCK_AFTER_MS,
-  close: null,
-};
-
-export type AppSettings = {
-  /** The app lock's enrolment (@maat-apps/core/lock), `null` when off. */
-  lock: LockEnrolment | null;
-  /** How soon the lock comes back once the app is left. */
-  relockAfter: RelockAfter;
-  installed: boolean;
-  practice: PracticePrefs;
-  keyboard: KeyboardPrefs;
-  notation: Notation;
 };
 
 const DEFAULT_PRACTICE: PracticePrefs = {
@@ -96,76 +70,52 @@ function parseKeyboard(value: unknown): KeyboardPrefs {
   };
 }
 
-const settingsStore = createPersistedStore<AppSettings>({
+export const appSettings = createAppSettings({
   storage: keyValueStore,
   key: SETTINGS_KEY,
-  defaults: {
-    lock: null,
-    relockAfter: "30s",
-    installed: false,
-    practice: DEFAULT_PRACTICE,
-    keyboard: DEFAULT_KEYBOARD,
-    notation: "international",
-  },
-  parse: (stored) => {
-    const value = record(stored);
-    return {
-      lock: parseLockEnrolment(value.lock),
-      relockAfter: pick(value.relockAfter, RELOCK_CHOICES, "30s"),
-      installed: value.installed === true,
-      practice: parsePractice(value.practice),
-      keyboard: parseKeyboard(value.keyboard),
-      notation: pick(value.notation, NOTATIONS, "international"),
-    };
+  extra: {
+    defaults: {
+      practice: DEFAULT_PRACTICE,
+      keyboard: DEFAULT_KEYBOARD,
+      notation: "international" as Notation,
+    },
+    parse: (stored) => ({
+      practice: parsePractice(stored.practice),
+      keyboard: parseKeyboard(stored.keyboard),
+      notation: pick(stored.notation, NOTATIONS, "international"),
+    }),
   },
 });
 
+export type AppSettings = ReturnType<typeof appSettings.getSnapshot>;
+
 /** Test-only: resolves once the initial background read has finished. */
-export const whenLoaded = settingsStore.whenLoaded;
-export const subscribeToSettings = settingsStore.subscribe;
-export const getSettingsSnapshot = settingsStore.getSnapshot;
-export const getServerSettingsSnapshot = settingsStore.getServerSnapshot;
+export const whenLoaded = appSettings.whenLoaded;
+export const subscribeToSettings = appSettings.subscribe;
+export const getSettingsSnapshot = appSettings.getSnapshot;
+export const getServerSettingsSnapshot = appSettings.getServerSnapshot;
 // The lock gate must not treat "not loaded yet" as "no lock enrolled", or a
 // locked device would flash its data on every cold start.
-export const subscribeToSettingsReady = settingsStore.subscribeReady;
-export const isSettingsReady = settingsStore.isReady;
-
-export function isSettingsReadyOnServer(): boolean {
-  return false;
-}
-
-export function setLockEnrolment(lock: LockEnrolment | null): void {
-  settingsStore.set({ lock });
-}
-
-export function setRelockAfter(relockAfter: RelockAfter): void {
-  settingsStore.set({ relockAfter });
-}
-
-/** The lock's `relockAfterMs`: read on every hide, so a change applies at once. */
-export function relockAfterMs(): number | null {
-  return RELOCK_AFTER_MS[getSettingsSnapshot().relockAfter];
-}
-
-/** Chrome stops offering the install prompt once installed, even to a plain
- * browser tab — this flag is the only record of it. */
-export function markInstalled(): void {
-  if (getSettingsSnapshot().installed) return;
-  settingsStore.set({ installed: true });
-}
+export const subscribeToSettingsReady = appSettings.subscribeReady;
+export const isSettingsReady = appSettings.isReady;
+export const isSettingsReadyOnServer = appSettings.isReadyOnServer;
+export const setLockEnrolment = appSettings.setLockEnrolment;
+export const setRelockAfter = appSettings.setRelockAfter;
+export const relockAfterMs = appSettings.relockAfterMs;
+export const markInstalled = appSettings.markInstalled;
 
 export function setPracticePrefs(changes: Partial<PracticePrefs>): void {
-  settingsStore.set({
+  appSettings.set({
     practice: { ...getSettingsSnapshot().practice, ...changes },
   });
 }
 
 export function setKeyboardPrefs(changes: Partial<KeyboardPrefs>): void {
-  settingsStore.set({
+  appSettings.set({
     keyboard: { ...getSettingsSnapshot().keyboard, ...changes },
   });
 }
 
 export function setNotation(notation: Notation): void {
-  settingsStore.set({ notation });
+  appSettings.set({ notation });
 }
