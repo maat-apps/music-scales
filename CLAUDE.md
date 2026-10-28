@@ -80,7 +80,9 @@ scope are in [`PRODUCT.md`](./PRODUCT.md).
 - **i18n.** `src/i18n/pl.json` and `en.json`, Polish the fallback; `t()`
   only accepts keys present in both (a unit test checks they match).
 - **E2E** runs in Polish (`locale: "pl-PL"` in `playwright.config.ts`).
-  `wake-lock.spec.ts` stubs `navigator.wakeLock` rather than relying on
+  `e2e/utils.ts` reads IndexedDB through `@maat-apps/config/playwright`'s
+  `readStored`; Vite, Vitest and the unit setup are `@maat-apps/config`'s
+  presets. `wake-lock.spec.ts` stubs `navigator.wakeLock` rather than relying on
   what a headless browser grants.
 - **App lock.** Every maat-apps app has it (`@maat-apps/core/lock` +
   `@maat-apps/ui/app-lock-gate`, wrapped around the router in
