@@ -1,6 +1,7 @@
 // Reusable Playwright test helpers — plain functions specs call directly,
 // not test.extend() fixtures (hence "utils.ts", not "fixtures.ts" — see
 // maat-core/STRUCTURE.md's Testing section for why that naming matters).
+import { readStored } from "@maat-apps/config/playwright";
 import { expect, type Page } from "@playwright/test";
 
 export async function goHome(page: Page) {
@@ -61,31 +62,13 @@ export async function chordNames(page: Page, group: string): Promise<string[]> {
 
 /**
  * Waits until the settings reach IndexedDB — they're written in the
- * background, so a reload right after a tap could beat the write. Store and
- * key names are duplicated by hand: this runs in the page, which can't
- * import from src/.
+ * background, so a reload right after a tap could beat the write.
  */
 export async function waitForStoredSettings(
   page: Page,
   expected: Record<string, unknown>,
 ) {
   await expect
-    .poll(() =>
-      page.evaluate(
-        () =>
-          new Promise<unknown>((resolve) => {
-            const request = indexedDB.open("music-scales");
-            request.onerror = () => resolve(undefined);
-            request.onsuccess = () => {
-              const read = request.result
-                .transaction("kv")
-                .objectStore("kv")
-                .get("music-scales-settings");
-              read.onerror = () => resolve(undefined);
-              read.onsuccess = () => resolve(read.result);
-            };
-          }),
-      ),
-    )
+    .poll(() => readStored(page, "music-scales", "music-scales-settings"))
     .toMatchObject(expected);
 }
